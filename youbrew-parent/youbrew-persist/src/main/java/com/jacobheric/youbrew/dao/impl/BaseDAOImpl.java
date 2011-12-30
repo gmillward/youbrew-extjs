@@ -20,43 +20,39 @@
 package com.jacobheric.youbrew.dao.impl;
 
 import java.io.Serializable;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-import com.jacobheric.youbrew.dao.contract.IBaseDAO;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Example;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
+import com.jacobheric.youbrew.dao.contract.IBaseDAO;
 
 /**
  * @author jacob
  */
 @Repository("baseDAO")
-public abstract class BaseDAOImpl<T, ID extends Serializable> implements IBaseDAO<T, ID> {
+public abstract class BaseDAOImpl<T, ID extends Serializable> implements
+		IBaseDAO<T, ID> {
 
 	@Autowired
-	protected SessionFactory sessionFactory; //injected by Spring container
-	@SuppressWarnings("unchecked")
+	protected SessionFactory sessionFactory; // injected by Spring container
 	private Class<T> clazz;
 
 	@SuppressWarnings("unchecked")
 	public BaseDAOImpl() {
-		this.clazz = (Class<T>)
-			  ((ParameterizedType) getClass().getGenericSuperclass())
-					.getActualTypeArguments()[0];
+		this.clazz = (Class<T>) ((ParameterizedType) getClass()
+				.getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 
 	/**
 	 * §
-	 *
+	 * 
 	 * @return - hibernate sessionfactory
 	 */
 	public SessionFactory getSessionFactory() {
@@ -64,29 +60,32 @@ public abstract class BaseDAOImpl<T, ID extends Serializable> implements IBaseDA
 	}
 
 	/**
-	 * @param sessFactory - hibernate session factory
-	 *                    Note injection by annotation.
+	 * @param sessFactory
+	 *            - hibernate session factory Note injection by annotation.
 	 */
 	public void setSessionFactory(SessionFactory sessFactory) {
 		this.sessionFactory = sessFactory;
 	}
 
 	/**
-	 * @param o - delete a persistent object
+	 * @param o
+	 *            - delete a persistent object
 	 */
 	public void delete(T o) {
 		this.sessionFactory.getCurrentSession().delete(o);
 	}
 
 	/**
-	 * @param o - Extends BaseObject, determined by implementing classes.
+	 * @param o
+	 *            - Extends BaseObject, determined by implementing classes.
 	 */
 	public T update(T o) {
 		return insert(o);
 	}
 
 	/**
-	 * @param o - Extends BaseObject, determined by implementing classes.
+	 * @param o
+	 *            - Extends BaseObject, determined by implementing classes.
 	 */
 	public T insert(T o) {
 		this.sessionFactory.getCurrentSession().saveOrUpdate(o);
@@ -96,14 +95,14 @@ public abstract class BaseDAOImpl<T, ID extends Serializable> implements IBaseDA
 	/**
 	 * @return List of T
 	 */
-	@SuppressWarnings("unchecked")
 	public List<T> findAll() {
 		return (List<T>) this.findByCriteria();
 	}
 
 	/**
-	 *
-	 * @param id - id of entity to delete
+	 * 
+	 * @param id
+	 *            - id of entity to delete
 	 */
 	public void deleteById(ID id) {
 		this.delete(this.findById(id));
@@ -119,31 +118,33 @@ public abstract class BaseDAOImpl<T, ID extends Serializable> implements IBaseDA
 	 * @throws IllegalArgumentException
 	 */
 	@SuppressWarnings("unchecked")
-	public T findById(ID id){
+	public T findById(ID id) {
 		return (T) this.sessionFactory.getCurrentSession().get(this.clazz, id);
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<T> findByExample(T exampleInstance, String[] excludeProperty) {
-		Criteria crit = this.sessionFactory.getCurrentSession().createCriteria(this.clazz);
+		Criteria crit = this.sessionFactory.getCurrentSession().createCriteria(
+				this.clazz);
 		Example example = Example.create(exampleInstance);
-			for (String exclude : excludeProperty) {
+		for (String exclude : excludeProperty) {
 			example.excludeProperty(exclude);
 		}
 		crit.add(example);
 		return crit.list();
 	}
 
-    /**
-     * Convenience criteria method.
-     */
-    @SuppressWarnings("unchecked")
-    protected List<T> findByCriteria(Criterion...criterion) {
-        Criteria crit = this.getSessionFactory().getCurrentSession().createCriteria(this.clazz);
-		
-        for (Criterion c : criterion) {
-            crit.add(c);
-        }
-        return crit.list();
-   }
+	/**
+	 * Convenience criteria method.
+	 */
+	@SuppressWarnings("unchecked")
+	protected List<T> findByCriteria(Criterion... criterion) {
+		Criteria crit = this.getSessionFactory().getCurrentSession()
+				.createCriteria(this.clazz);
+
+		for (Criterion c : criterion) {
+			crit.add(c);
+		}
+		return crit.list();
+	}
 }

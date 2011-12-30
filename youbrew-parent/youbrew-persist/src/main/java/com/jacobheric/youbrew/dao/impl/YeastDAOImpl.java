@@ -18,13 +18,13 @@
  */
 package com.jacobheric.youbrew.dao.impl;
 
-import com.jacobheric.youbrew.dao.contract.IYeastDAO;
-import com.jacobheric.youbrew.domain.Yeast;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.jacobheric.youbrew.dao.contract.IYeastDAO;
+import com.jacobheric.youbrew.domain.Yeast;
 //
 //PersistenceExceptions will be auto-translated due to @Repository
+
 @Repository("yeastDAO")
 public class YeastDAOImpl extends BaseDAOImpl<Yeast, Long> implements IYeastDAO {
 

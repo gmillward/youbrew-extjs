@@ -1,4 +1,3 @@
-
 /**
  * @author: jacob
  * @created: Oct 25, 2010
@@ -18,15 +17,14 @@
  */
 package com.jacobheric.youbrew.service.impl;
 
-import com.jacobheric.youbrew.dao.contract.IHopDAO;
-import com.jacobheric.youbrew.dao.contract.IYeastDAO;
-import com.jacobheric.youbrew.domain.Hop;
-import com.jacobheric.youbrew.domain.Yeast;
-import com.jacobheric.youbrew.service.contract.IYeastService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.jacobheric.youbrew.dao.contract.IYeastDAO;
+import com.jacobheric.youbrew.domain.Yeast;
+import com.jacobheric.youbrew.service.contract.IYeastService;
 
 @Service("yeastService")
 public class YeastServiceImpl implements IYeastService {
@@ -51,15 +49,18 @@ public class YeastServiceImpl implements IYeastService {
 	}
 
 	public Yeast findById(Long id) {
-		 return (Yeast) this.yeastDAO.findById(id);
+		return (Yeast) this.yeastDAO.findById(id);
 	}
 
 	public List<Yeast> findByName(String name) {
-		return this.findByExample(new Yeast(name), new String[]{"id", "attenuation", "description"});
+		return this.findByExample(new Yeast(name), new String[] { "id",
+				"attenuation", "description" });
 	}
 
-	public List<Yeast> findByExample(Yeast exampleClass, String[] excludeProperty) {
-		return (List<Yeast>) this.yeastDAO.findByExample(exampleClass, excludeProperty);
+	public List<Yeast> findByExample(Yeast exampleClass,
+			String[] excludeProperty) {
+		return (List<Yeast>) this.yeastDAO.findByExample(exampleClass,
+				excludeProperty);
 	}
 
 	public List<Yeast> findAll() {

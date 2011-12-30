@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Table(name = "recipe")
 public class Recipe implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)	
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 	private String name;
@@ -28,25 +28,19 @@ public class Recipe implements Serializable {
 	@Column(name = "taste_notes")
 	private String tasteNotes;
 
-	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
-	@JoinTable(name = "recipe_hops",
-		  joinColumns = @JoinColumn(name = "recipe_id"),
-		  inverseJoinColumns = @JoinColumn(name = "hop_id")
-	)
+	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
+	@JoinTable(name = "recipe_hops", joinColumns = @JoinColumn(name = "recipe_id"), inverseJoinColumns = @JoinColumn(name = "hop_id"))
 	private Set<Hop> hops = new HashSet<Hop>();
 
-	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
-	@JoinTable(name = "recipe_malts",
-		  joinColumns = @JoinColumn(name = "recipe_id"),
-		  inverseJoinColumns = @JoinColumn(name = "malt_id")
-	)
+	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
+	@JoinTable(name = "recipe_malts", joinColumns = @JoinColumn(name = "recipe_id"), inverseJoinColumns = @JoinColumn(name = "malt_id"))
 	private Set<Malt> malts = new HashSet<Malt>();
 
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
 	private Yeast yeast;
 
 	@Transient
-	private String yeastName;  //convenience, view helper
+	private String yeastName; // convenience, view helper
 
 	private static final long serialVersionUID = 1L;
 

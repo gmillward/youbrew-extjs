@@ -19,20 +19,15 @@
  */
 package com.jacobheric.youbrew.service.impl;
 
+import java.util.List;
 
-import com.jacobheric.youbrew.dao.contract.IHopDAO;
-import com.jacobheric.youbrew.dao.contract.IRecipeDAO;
-import com.jacobheric.youbrew.dao.criteria.RecipeCriteria;
-import com.jacobheric.youbrew.domain.Hop;
-import com.jacobheric.youbrew.domain.Recipe;
-import com.jacobheric.youbrew.service.contract.IRecipeService;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.jacobheric.youbrew.dao.contract.IRecipeDAO;
+import com.jacobheric.youbrew.dao.criteria.RecipeCriteria;
+import com.jacobheric.youbrew.domain.Recipe;
+import com.jacobheric.youbrew.service.contract.IRecipeService;
 
 @Service("recipeService")
 public class RecipeServiceImpl implements IRecipeService {
@@ -57,11 +52,13 @@ public class RecipeServiceImpl implements IRecipeService {
 	}
 
 	public Recipe findById(Long id) {
-		 return (Recipe) this.recipeDAO.findById(id);
+		return (Recipe) this.recipeDAO.findById(id);
 	}
 
-	public List<Recipe> findByExample(Recipe exampleClass, String[] excludeProperty) {
-		return (List<Recipe>) this.recipeDAO.findByExample(exampleClass, excludeProperty);
+	public List<Recipe> findByExample(Recipe exampleClass,
+			String[] excludeProperty) {
+		return (List<Recipe>) this.recipeDAO.findByExample(exampleClass,
+				excludeProperty);
 	}
 
 	public List<Recipe> findAll() {
@@ -71,5 +68,5 @@ public class RecipeServiceImpl implements IRecipeService {
 	public List<Recipe> search(RecipeCriteria criteria) {
 		return this.recipeDAO.search(criteria);
 	}
-		
+
 }

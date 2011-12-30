@@ -24,6 +24,6 @@ import java.util.List;
 
 public interface IRecipeDAO extends IBaseDAO<Recipe, Long> {
 
-   public List<Recipe> search(RecipeCriteria criteria);
+	public List<Recipe> search(RecipeCriteria criteria);
 
 }

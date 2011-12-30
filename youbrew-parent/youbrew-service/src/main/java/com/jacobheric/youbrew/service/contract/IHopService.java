@@ -18,8 +18,6 @@
  */
 package com.jacobheric.youbrew.service.contract;
 
-import com.jacobheric.youbrew.domain.Hop;
-
 public interface IHopService {
-	
+
 }

@@ -17,6 +17,20 @@
  */
 package com.jacobheric.youbrew.controller;
 
+import java.io.Serializable;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.jacobheric.youbrew.dao.criteria.RecipeCriteria;
 import com.jacobheric.youbrew.domain.Recipe;
 import com.jacobheric.youbrew.domain.Yeast;
@@ -24,26 +38,13 @@ import com.jacobheric.youbrew.service.contract.IRecipeService;
 import com.jacobheric.youbrew.service.contract.IYeastService;
 import com.jacobheric.youbrew.view.DeleteInput;
 import com.jacobheric.youbrew.view.RecipeListInput;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Validator;
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.List;
 
 @Controller
-@RequestMapping(value="/recipe")
+@RequestMapping(value = "/recipe")
 public class RecipeController extends BaseController implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private static final Logger log = LoggerFactory.getLogger(RecipeController.class);
+	private static final Logger log = LoggerFactory
+			.getLogger(RecipeController.class);
 
 	@Autowired
 	private IRecipeService recipeService;
@@ -57,46 +58,51 @@ public class RecipeController extends BaseController implements Serializable {
 	public RecipeController() {
 	}
 
-	@RequestMapping(method = {RequestMethod.GET})
-	public @ResponseBody ServiceResultWrapper<Recipe> SearchRecipes(@ModelAttribute RecipeCriteria criteria)
-	{
-		return new ServiceResultWrapper(this.recipeService.search(criteria), true, "Search successful", criteria.getTotal());
+	@RequestMapping(method = { RequestMethod.GET })
+	public @ResponseBody
+	ServiceResultWrapper<Recipe> SearchRecipes(
+			@ModelAttribute RecipeCriteria criteria) {
+		return new ServiceResultWrapper(this.recipeService.search(criteria),
+				true, "Search successful", criteria.getTotal());
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public @ResponseBody ServiceResultWrapper<List<Recipe>> addRecipes(@RequestBody RecipeListInput recipeListInput)
-	{
+	public @ResponseBody
+	ServiceResultWrapper<List<Recipe>> addRecipes(
+			@RequestBody RecipeListInput recipeListInput) {
 
 		List<Recipe> recipes = recipeListInput.getItems();
 		//
-		//some reasonable defaults
-		ServiceResultWrapper<List<Recipe>> result = new ServiceResultWrapper<List<Recipe>>(null, true, "Recipe(s) saved successfully", 0);
+		// some reasonable defaults
+		ServiceResultWrapper<List<Recipe>> result = new ServiceResultWrapper<List<Recipe>>(
+				null, true, "Recipe(s) saved successfully", 0);
 
 		//
-		//Validate this entity
+		// Validate this entity
 		this.validateEntities(result, recipes);
 
-		if (!result.getSuccess()){
+		if (!result.getSuccess()) {
 			return result;
 		}
 
 		try {
 
 			//
-			//Must send back all data including generated PK for UI grids to synch up
-			for (Recipe r : recipes){
+			// Must send back all data including generated PK for UI grids to
+			// synch up
+			for (Recipe r : recipes) {
 				//
-				//Load the recipe from db
-				if (!StringUtils.isEmpty(r.getYeastName())){
-					r.setYeast(this.yeastService.findByName(r.getYeastName()).get(0));
+				// Load the recipe from db
+				if (!StringUtils.isEmpty(r.getYeastName())) {
+					r.setYeast(this.yeastService.findByName(r.getYeastName())
+							.get(0));
 				}
 				recipeService.insert(r);
 			}
 
 			result.setItem(recipes);
 
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			log.error("error", e);
 			result.setSuccess(false);
 			result.setMessage(e.getMessage());
@@ -107,59 +113,61 @@ public class RecipeController extends BaseController implements Serializable {
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)
-	public @ResponseBody ServiceResultWrapper<Void> updateRecipes(@RequestBody RecipeListInput recipeListInput)
-	{
+	public @ResponseBody
+	ServiceResultWrapper<Void> updateRecipes(
+			@RequestBody RecipeListInput recipeListInput) {
 
 		List<Recipe> recipes = recipeListInput.getItems();
 		//
-		//some reasonable defaults
-		ServiceResultWrapper<Void> result = new ServiceResultWrapper<Void>(null, true, "Recipe(s) updated successfully", 0);
+		// some reasonable defaults
+		ServiceResultWrapper<Void> result = new ServiceResultWrapper<Void>(
+				null, true, "Recipe(s) updated successfully", 0);
 
 		//
-		//Validate this entity
+		// Validate this entity
 		this.validateEntities(result, recipes);
 
-		if (!result.getSuccess()){
+		if (!result.getSuccess()) {
 			return result;
 		}
 
 		try {
 
-			for (Recipe r : recipes){
+			for (Recipe r : recipes) {
 				//
-				//Load the recipe from db
-				if (!StringUtils.isEmpty(r.getYeastName())){
-					r.setYeast(this.yeastService.findByName(r.getYeastName()).get(0));
+				// Load the recipe from db
+				if (!StringUtils.isEmpty(r.getYeastName())) {
+					r.setYeast(this.yeastService.findByName(r.getYeastName())
+							.get(0));
 				}
-				
+
 				recipeService.update(r);
 			}
 
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			log.error("error", e);
 			result.setSuccess(false);
-			result.setMessage(e.getMessage());			
+			result.setMessage(e.getMessage());
 		}
 
 		return result;
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE)
-	public @ResponseBody ServiceResultWrapper<Void> deleteRecipes(@RequestBody DeleteInput delInput)
-	{
+	public @ResponseBody
+	ServiceResultWrapper<Void> deleteRecipes(@RequestBody DeleteInput delInput) {
 		//
-		//some reasonable defaults
-		ServiceResultWrapper<Void> result = new ServiceResultWrapper<Void>(null, true, "Recipe(s) deleted successfully", 0);
+		// some reasonable defaults
+		ServiceResultWrapper<Void> result = new ServiceResultWrapper<Void>(
+				null, true, "Recipe(s) deleted successfully", 0);
 
 		try {
 
-			for (Long id : delInput.getItems()){
+			for (Long id : delInput.getItems()) {
 				recipeService.deleteById(id);
 			}
 
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			log.error("error", e);
 			result.setSuccess(false);
 			result.setMessage(e.getMessage());
@@ -169,12 +177,13 @@ public class RecipeController extends BaseController implements Serializable {
 	}
 
 	/**
-	 * TODO:  move to yeast controller
+	 * TODO: move to yeast controller
+	 * 
 	 * @return list of available yeasts
 	 */
 	@RequestMapping(value = "/yeast", method = RequestMethod.GET)
-	public @ResponseBody ServiceResultWrapper<Yeast> getYeasts()
-	{
+	public @ResponseBody
+	ServiceResultWrapper<Yeast> getYeasts() {
 		List<Yeast> yeasties = this.yeastService.findAll();
 		return new ServiceResultWrapper(yeasties, true, "", yeasties.size());
 	}

@@ -19,10 +19,10 @@
  */
 package com.jacobheric.youbrew.service.contract;
 
+import java.util.List;
+
 import com.jacobheric.youbrew.dao.criteria.RecipeCriteria;
 import com.jacobheric.youbrew.domain.Recipe;
-
-import java.util.List;
 
 public interface IRecipeService {
 
@@ -36,14 +36,16 @@ public interface IRecipeService {
 
 	public Recipe findById(Long id);
 
-	public List<Recipe> findByExample(Recipe exampleClass, String[] excludeProperty);
+	public List<Recipe> findByExample(Recipe exampleClass,
+			String[] excludeProperty);
 
 	public List<Recipe> findAll();
 
 	/**
-	 * @param criteria - the recipe criteria object
+	 * @param criteria
+	 *            - the recipe criteria object
 	 * @return - list of found recipes
 	 */
 	public List<Recipe> search(RecipeCriteria criteria);
-	
+
 }

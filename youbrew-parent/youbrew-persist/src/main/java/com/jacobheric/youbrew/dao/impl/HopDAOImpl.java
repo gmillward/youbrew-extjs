@@ -18,11 +18,10 @@
  */
 package com.jacobheric.youbrew.dao.impl;
 
-import com.jacobheric.youbrew.dao.contract.IHopDAO;
-import com.jacobheric.youbrew.dao.contract.IYeastDAO;
-import com.jacobheric.youbrew.domain.Hop;
-import com.jacobheric.youbrew.domain.Yeast;
 import org.springframework.stereotype.Repository;
+
+import com.jacobheric.youbrew.dao.contract.IHopDAO;
+import com.jacobheric.youbrew.domain.Hop;
 
 @Repository("hopDAO")
 public class HopDAOImpl extends BaseDAOImpl<Hop, Long> implements IHopDAO {

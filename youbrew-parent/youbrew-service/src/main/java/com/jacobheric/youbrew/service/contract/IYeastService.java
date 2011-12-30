@@ -18,9 +18,9 @@
  */
 package com.jacobheric.youbrew.service.contract;
 
-import com.jacobheric.youbrew.domain.Yeast;
-
 import java.util.List;
+
+import com.jacobheric.youbrew.domain.Yeast;
 
 public interface IYeastService {
 
@@ -34,10 +34,11 @@ public interface IYeastService {
 
 	public Yeast findById(Long id);
 
-	public List<Yeast> findByName(String name);	
+	public List<Yeast> findByName(String name);
 
-	public List<Yeast> findByExample(Yeast exampleClass, String[] excludeProperty);
+	public List<Yeast> findByExample(Yeast exampleClass,
+			String[] excludeProperty);
 
 	public List<Yeast> findAll();
-	
+
 }

@@ -1,4 +1,3 @@
-
 /**
  * @author: jacob
  * @created: Oct 25, 2010
@@ -17,9 +16,9 @@
  */
 package com.jacobheric.youbrew.service.impl;
 
-import com.jacobheric.youbrew.domain.Malt;
-import com.jacobheric.youbrew.service.contract.IMaltService;
 import org.springframework.stereotype.Service;
+
+import com.jacobheric.youbrew.service.contract.IMaltService;
 
 @Service("maltService")
 public class MaltServiceImpl implements IMaltService {

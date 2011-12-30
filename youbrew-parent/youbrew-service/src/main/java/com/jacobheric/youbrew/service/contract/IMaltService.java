@@ -19,13 +19,10 @@
  */
 package com.jacobheric.youbrew.service.contract;
 
-import com.jacobheric.youbrew.domain.Malt;
-
-
 /**
  * @author Jacob
- *
+ * 
  */
 public interface IMaltService {
-	
+
 }

@@ -1,4 +1,5 @@
 package com.jacobheric.youbrew.view;
+
 /**
  * Description:  a dumb wrapper for returning lists to the view in a format that ext js likes.
  * @author: jacob heric
@@ -20,8 +21,7 @@ import java.util.List;
 
 /**
  * A simple wrapper to encapsulate incoming serializabe entity ids for deletion.
- * User: jacob
- * Date: Jan 21, 2011
+ * User: jacob Date: Jan 21, 2011
  */
 
 public class DeleteInput {

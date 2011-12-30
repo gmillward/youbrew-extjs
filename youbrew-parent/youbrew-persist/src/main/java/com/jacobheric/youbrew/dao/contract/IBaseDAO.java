@@ -21,13 +21,19 @@ import java.io.Serializable;
 import java.util.List;
 
 public interface IBaseDAO<T, ID extends Serializable> {
-   
-   public T insert(T o);
-   public T update(T o);
-   public void delete(T o);
-   public void deleteById(ID id);
-   public T findById(ID id);
-   public List<T> findByExample(T exampleClass, String[] excludeProperty);
-   public List<T> findAll();  
+
+	public T insert(T o);
+
+	public T update(T o);
+
+	public void delete(T o);
+
+	public void deleteById(ID id);
+
+	public T findById(ID id);
+
+	public List<T> findByExample(T exampleClass, String[] excludeProperty);
+
+	public List<T> findAll();
 
 }

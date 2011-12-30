@@ -1,4 +1,3 @@
-
 /**
  * @author: jacob
  * @date: Oct 25, 2010
@@ -17,21 +16,21 @@
  */
 package com.jacobheric.youbrew.service.impl;
 
-import com.jacobheric.youbrew.dao.contract.IHopDAO;
-import com.jacobheric.youbrew.dao.contract.IRecipeDAO;
-import com.jacobheric.youbrew.domain.Hop;
-import com.jacobheric.youbrew.service.contract.IHopService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.jacobheric.youbrew.dao.contract.IHopDAO;
+import com.jacobheric.youbrew.domain.Hop;
+import com.jacobheric.youbrew.service.contract.IHopService;
 
 @Service("hopService")
 public class HopServiceImpl implements IHopService {
 
 	@Autowired
 	IHopDAO hopDAO;
-	
+
 	public Hop insert(Hop hop) {
 		return (Hop) this.hopDAO.insert(hop);
 	}
@@ -49,16 +48,16 @@ public class HopServiceImpl implements IHopService {
 	}
 
 	public Hop findById(Long id) {
-		 return (Hop) this.hopDAO.findById(id);
+		return (Hop) this.hopDAO.findById(id);
 	}
 
 	public List<Hop> findByExample(Hop exampleClass, String[] excludeProperty) {
-		return (List<Hop>) this.hopDAO.findByExample(exampleClass, excludeProperty);
+		return (List<Hop>) this.hopDAO.findByExample(exampleClass,
+				excludeProperty);
 	}
 
 	public List<Hop> findAll() {
 		return (List<Hop>) this.hopDAO.findAll();
 	}
-
 
 }
